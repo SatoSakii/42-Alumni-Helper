@@ -29,7 +29,23 @@ export default async function handler(req)
 		});
 	}
 
-	const { code, redirect_uri } = await req.json();
+	let body;
+
+	try {
+		body = await req.json();
+	} catch (error) {
+		return new Response(JSON.stringify({ message: "Invalid JSON" }), {
+			status: 400,
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods": "POST, OPTIONS",
+				"Access-Control-Allow-Headers": "Content-Type"
+			}
+		});
+	}
+
+	const { code, redirect_uri } = body;
 
 	if (!code || !redirect_uri)
 	{
