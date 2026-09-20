@@ -5,3 +5,6 @@ proxy/.vercel/
 proxy/.env
 proxy/.env.*
 !proxy/.env.example
+
+# Extension
+extension-key.pem
