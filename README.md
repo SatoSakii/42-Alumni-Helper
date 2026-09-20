@@ -26,31 +26,9 @@ depuis la date d'alumnization, et corrige l'affichage directement dans le DOM.
 Table XP par projet + courbe level↔XP par
 [fzphr/42insight](https://github.com/fzphr/42insight). Merci à eux.
 
-## Structure du repo
-
-```
-42-alumni-helper/
-├── extension/
-│   ├── manifest.json         # Manifest V3, clé épinglée (ID stable)
-│   ├── background.js         # Flow OAuth2 (chrome.identity.launchWebAuthFlow)
-│   ├── content/
-│   │   ├── config.js         # Constantes (cursus id, URLs, TTL cache)
-│   │   ├── cache.js          # Helper générique cache TTL (chrome.storage.local)
-│   │   ├── level-engine.js   # Interpolation level↔XP, calcul XP gagnée
-│   │   └── content.js        # Orchestration + patch DOM
-│   ├── popup/                # UI connexion / déconnexion / vidage cache
-│   └── icons/
-├── proxy/
-│   ├── .env.example
-│   └── api/
-│       └── token.js          # Vercel serverless function - échange code→token
-├── .gitignore
-└── README.md
-```
-
 ## Setup
 
-### 1. Charger l'extension
+### Charger l'extension
 
 ```bash
 cd extension
@@ -58,7 +36,9 @@ cd extension
 `chrome://extensions` → active le mode développeur → "Charger l'extension non
 empaquetée" → sélectionne ce dossier.
 
-### 2. Créer l'app OAuth 42 *(build only)*
+## Build
+
+### 1. Créer l'app OAuth 42 *(build only)*
 
 > Cette étape concerne uniquement si tu build l'extension toi-même depuis
 > les sources. Si tu utilises une release déjà packagée, le `client_id`
@@ -76,7 +56,7 @@ Sur [profile.intra.42.fr/oauth/applications](https://profile.intra.42.fr/oauth/a
   const CLIENT_ID = "TON_CLIENT_ID";
   ```
 
-### 3. Déployer le proxy (Vercel) *(build only)*
+### 2. Déployer le proxy (Vercel) *(build only)*
 
 > Cette étape concerne uniquement si tu build l'extension toi-même depuis
 > les sources. Si tu utilises une release déjà packagée, le `client_id`
@@ -102,6 +82,29 @@ Récupère l'URL prod (`https://ton-projet.vercel.app`), colle-la dans
 const PROXY_URL = "https://ton-projet.vercel.app/api/token";
 ```
 et dans `extension/manifest.json` → `host_permissions`.
+
+## Structure du repo
+
+```
+42-alumni-helper/
+├── extension/
+│   ├── manifest.json         # Manifest V3, clé épinglée (ID stable)
+│   ├── background.js         # Flow OAuth2 (chrome.identity.launchWebAuthFlow)
+│   ├── content/
+│   │   ├── config.js         # Constantes (cursus id, URLs, TTL cache)
+│   │   ├── cache.js          # Helper générique cache TTL (chrome.storage.local)
+│   │   ├── level-engine.js   # Interpolation level↔XP, calcul XP gagnée
+│   │   └── content.js        # Orchestration + patch DOM
+│   ├── popup/                # UI connexion / déconnexion / vidage cache
+│   └── icons/
+├── proxy/
+│   ├── .env.example
+│   └── api/
+│       └── token.js          # Vercel serverless function - échange code→token
+├── .gitignore
+└── README.md
+└── LICENSE
+```
 
 ## Licence
 
