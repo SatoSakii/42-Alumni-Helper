@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>42 Alumni Level Fix</title>
+    <style>
+        body { width: 260px; font-family: Arial, sans-serif; padding: 14px; background: #14141f; color: #d0d0e8; }
+        h1 { font-size: 14px; margin: 0 0 12px 0; }
+        p { font-size: 12px; color: #9b9bb4; margin: 4px 0 12px 0; }
+        button { width: 100%; padding: 8px; border: none; border-radius: 4px; font-size: 13px; cursor: pointer; margin-bottom: 8px; }
+        #connectBtn { background: #00babc; color: #0a0a12; }
+        #logoutBtn { background: #2a2a3d; color: #d0d0e8; }
+        #clearCacheBtn { background: #2a2a3d; color: #d0d0e8; }
+        #status { font-size: 12px; margin-bottom: 10px; }
+        .ok { color: #33c47f; }
+        .ko { color: #cc4444; }
+    </style>
+</head>
+<body>
+    <h1>42 Alumni Helper</h1>
+    <p id="status">Vérification...</p>
+    <button id="connectBtn">Se connecter avec 42</button>
+    <button id="logoutBtn" style="display:none">Déconnexion</button>
+    <button id="clearCacheBtn">Vider le cache</button>
+    <script src="popup.js"></script>
+</body>
+</html>
