@@ -28,7 +28,7 @@ function getExperienceForLevel(level, sortedLevels)
     return curr.experience + progress * (next.experience - curr.experience);
 }
 
-function computeGainedExperience(projectsUsers, difficultyById, alumnizedAt, cursusId)
+function computeGainedExperience(projectsUsers, difficultyById, cursusId)
 {
     let gainedXp = 0;
     const countedProjects = [];
@@ -36,17 +36,12 @@ function computeGainedExperience(projectsUsers, difficultyById, alumnizedAt, cur
     for (const pu of projectsUsers)
     {
         if (!pu["validated?"] || !pu.cursus_ids?.includes(cursusId))
-            continue;
-
-        const markedAt = new Date(pu.marked_at || pu.updated_at);
-
-        if (markedAt <= alumnizedAt)
-            continue;
+            continue ;
 
         const difficulty = difficultyById[pu.project.id];
 
         if (!difficulty)
-            continue;
+            continue ;
 
         const projectXp = difficulty * (pu.final_mark / 100);
 

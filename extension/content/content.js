@@ -55,7 +55,7 @@ async function fetchCursusUser(login, token)
     });
 }
 
-async function fetchAllProjectsUsers(userId, token)
+async function fetchAllProjectsUsers(userId, alumnizedAt, token)
 {
     return getCached(`projects_users:${userId}`, CACHE_TTL_PROJECTS_USERS_MS, async () =>
     {
@@ -64,14 +64,27 @@ async function fetchAllProjectsUsers(userId, token)
         while (true)
         {
             const data = await apiFetch(
-                `/v2/users/${userId}/projects_users?page[size]=100&page[number]=${page}`,
+                `/v2/users/${userId}/projects_users?page[size]=100&page[number]=${page}&sort=-updated_at`,
                 token
             );
 
             if (!data.length)
-                break;
+                break ;
 
-            all = all.concat(data);
+            let reachedCutoff = false;
+
+            for (const pu of data)
+            {
+                if (new Date(pu.updated_at) <= alumnizedAt)
+                {
+                    reachedCutoff = true;
+                    break ;
+                }
+                all.push(pu);
+            }
+
+            if (reachedCutoff)
+                break ;
             page++;
         }
         return all;
@@ -102,17 +115,17 @@ function updateExpBar(level)
 
 async function computeRealLevel(login, token)
 {
-    const { sortedLevels, difficultyById } = await fetchLevelEngineData();
     const cursusUser = await fetchCursusUser(login, token);
-    const userId = cursusUser.user.id;
     const alumnizedAt = cursusUser.user.alumnized_at ? new Date(cursusUser.user.alumnized_at) : null;
 
     if (!alumnizedAt)
         return cursusUser.level;
 
+    const { sortedLevels, difficultyById } = await fetchLevelEngineData();
+    const userId = cursusUser.user.id;
     const baselineXp = getExperienceForLevel(cursusUser.level, sortedLevels);
-    const projectsUsers = await fetchAllProjectsUsers(userId, token);
-    const { gainedXp } = computeGainedExperience(projectsUsers, difficultyById, alumnizedAt, CURSUS_ID);
+    const projectsUsers = await fetchAllProjectsUsers(userId, alumnizedAt, token);
+    const { gainedXp } = computeGainedExperience(projectsUsers, difficultyById, CURSUS_ID);
 
     return getPreciseLevel(baselineXp + gainedXp, sortedLevels);
 }
