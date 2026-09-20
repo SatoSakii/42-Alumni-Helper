@@ -1,4 +1,4 @@
-# 42 Alumni Level Fix
+# 42 Alumni Helper
 
 Extension navigateur (Chrome pour le moment) qui recalcule et corrige l'affichage
 du level 42cursus sur `profile.intra.42.fr` pour les comptes passés **alumni**.
