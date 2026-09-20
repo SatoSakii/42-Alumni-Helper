@@ -1,0 +1,42 @@
+{
+    "manifest_version": 3,
+    "name": "42 Alumni Helper",
+    "version": "1.0.0",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvyruNAed/leSCnIeDaOR8a7Jqfu8JWqkqaYBEnU4l0YxlSQGw2SkHKLFSIhBhq50NIRZ3I+PTMrtYDgQyWmPsXblMh6lThozLCxjzHUfFnxKNwASlKwDAz4WerVZud7pYeDI/hvGJcRAhEuuiedC2PJFS1A9yhed9iWtrjg2kLyNNINJKg0fBRFOEDgoCeNeNtbTh8dNQ7jbSbK0fMRuJxE0+9ivRBc3awO177sQObZp1rD7y49wxmXftcTMiOjmr9gFZQXPUG4VSDiuhoo2gwnru98P7+pgipa1OaRSfDkwVBt9/3lrrD8rkL+0t1vGXk3HMrGliWWe4X6pb8Q4kwIDAQAB",
+    "description": "Recalcule et corrige l'affichage du level 42cursus quand le compte est passé alumni",
+    "permissions": ["identity", "storage"],
+    "host_permissions": [
+        "https://api.intra.42.fr/*",
+        "https://profile.intra.42.fr/*",
+        "https://raw.githubusercontent.com/*",
+        "https://42-alumni-helper.vercel.app/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://profile.intra.42.fr/*"],
+            "js": [
+                "content/config.js",
+                "content/cache.js",
+                "content/level-engine.js",
+                "content/content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}
