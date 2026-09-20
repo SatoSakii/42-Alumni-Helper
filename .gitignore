@@ -1,7 +1,7 @@
 # Vercel
-.vercel/
+proxy/.vercel/
 
 # Environment variables
-.env
-.env.*
-!.env.example
+proxy/.env
+proxy/.env.*
+!proxy/.env.example
